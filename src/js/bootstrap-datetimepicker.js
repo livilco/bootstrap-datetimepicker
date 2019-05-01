@@ -763,17 +763,20 @@
                 var table = widget.find('.timepicker-hours table'),
                     currentHour = viewDate.clone().startOf('d'),
                     html = [],
-                    row = $('<tr>');
+                    row = $('<tr>'),
+                    firstChild;
 
                 if (viewDate.hour() > 11 && !use24Hours) {
                     currentHour.hour(12);
                 }
                 while (currentHour.isSame(viewDate, 'd') && (use24Hours || (viewDate.hour() < 12 && currentHour.hour() < 12) || viewDate.hour() > 11)) {
-                    if (currentHour.hour() % 4 === 0) {
+                    firstChild = false;
+                    if (currentHour.hour() % 6 === 0) {
                         row = $('<tr>');
                         html.push(row);
+                        firstChild = true
                     }
-                    row.append('<td data-action="selectHour" class="hour' + (!isValid(currentHour, 'h') ? ' disabled' : '') + '">' + currentHour.format(use24Hours ? 'HH' : 'hh') + '</td>');
+                    row.append('<td data-action="selectHour" class="hour' + (!isValid(currentHour, 'h') ? ' disabled' : '') + (firstChild ? ' first' : '') + '">' + currentHour.format(use24Hours ? 'HH' : 'hh') + '</td>');
                     currentHour.add(1, 'h');
                 }
                 table.empty().append(html);
@@ -784,14 +787,17 @@
                     currentMinute = viewDate.clone().startOf('h'),
                     html = [],
                     row = $('<tr>'),
-                    step = options.stepping === 1 ? 5 : options.stepping;
+                    step = options.stepping === 1 ? 5 : options.stepping,
+                    firstChild;
 
                 while (viewDate.isSame(currentMinute, 'h')) {
-                    if (currentMinute.minute() % (step * 4) === 0) {
+                    firstChild = false;
+                    if (currentMinute.minute() % (step * 3) === 0) {
                         row = $('<tr>');
                         html.push(row);
+                        firstChild = true;
                     }
-                    row.append('<td data-action="selectMinute" class="minute' + (!isValid(currentMinute, 'm') ? ' disabled' : '') + '">' + currentMinute.format('mm') + '</td>');
+                    row.append('<td data-action="selectMinute" class="minute' + (!isValid(currentMinute, 'm') ? ' disabled' : '') + (firstChild ? ' first' : '') + '">' + currentMinute.format('mm') + '</td>');
                     currentMinute.add(step, 'm');
                 }
                 table.empty().append(html);

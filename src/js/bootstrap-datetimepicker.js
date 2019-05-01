@@ -774,7 +774,7 @@
                     if (currentHour.hour() % 6 === 0) {
                         row = $('<tr>');
                         html.push(row);
-                        firstChild = true
+                        firstChild = true;
                     }
                     row.append('<td data-action="selectHour" class="hour' + (!isValid(currentHour, 'h') ? ' disabled' : '') + (firstChild ? ' first' : '') + '">' + currentHour.format(use24Hours ? 'HH' : 'hh') + '</td>');
                     currentHour.add(1, 'h');
